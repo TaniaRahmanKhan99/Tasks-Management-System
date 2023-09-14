@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Admin</title>
+
+	<!--Additional elements for browsers and robots go here goes here-->
+
+    <!--Bootstrap CSS-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+    <!--Bootstrap JavaScript-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    
+    <!--Bootstrap JavaScript-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <link rel="icon" href="../images/icon.png" type="image/gif" sizes="16x16">
+    <link rel="stylesheet" href="styles.css">
+    <script src="cript.js"></script>
+
+
+</head>
+
+<body>
+	<!--Elements visible to users go here-->
+
+    <div class="container">
+  
+        <!--  HEADER  -->
+          <header class="text-center text-light my-4">
+            <h1 class="mb-4">List of Task</h1>
+            <form class="search">
+              <input type="text" class="form-control m-auto" name="search" placeholder="search tasks">
+            </form>
+          </header>
+          
+        <!--  LIST  -->
+          <ul class="list-group todos mx-auto text-light">
+            <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: black; color: white;">
+              <span>
+                Task name || Description || Due date || Assignee 
+                </span>
+              <i class="far fa-trash-alt delete"></i>
+            </li>
+            
+             <li class="list-group-item d-flex justify-content-between align-items-center" style="border-color: black">
+              <span>
+                Login authentication || Login authentication is a vital process, widely followed by organizations to keep their servers safe by allowing access only to authenticated users. || 25 Sep || Dawood
+              </span>
+              <i class="far fa-trash-alt delete"></i>
+            </li>
+
+            <li class="list-group-item d-flex justify-content-between align-items-center" style="border-color: black">
+                <span>
+                Product landing page || Designing a product landing page is vital for web developers to test practical skills and how convincing they actually are. || 18 Aug || Sadia
+                </span>
+                <i class="far fa-trash-alt delete"></i>
+              </li>
+
+
+              <li class="list-group-item d-flex justify-content-between align-items-center" style="border-color: black">
+                <span>
+                  Event Page || At first glance, an event page seems like any static webpage project on this list. || 10 Sep || Ayesha
+                </span>
+                <i class="far fa-trash-alt delete"></i>
+              </li>
+
+              <li class="list-group-item d-flex justify-content-between align-items-center" style="border-color: black">
+                <span>
+                    Clone of Video-Sharing Site || Your clone site should include features like search engines, comment sections, channels, and payment plans.. || 12 NOv || Mustafa
+                </span>
+                <i class="far fa-trash-alt delete"></i>
+              </li>
+
+              <li class="list-group-item d-flex justify-content-between align-items-center" style="border-color: black">
+                <span>
+                  Event Page || At first glance, an event page seems like any static webpage project on this list. || 1 Jan || Amina
+                </span>
+                <i class="far fa-trash-alt delete"></i>
+              </li>
+
+
+              
+          </ul>
+          
+        <!--  FORM  -->
+          <form class="add text-center my-4">
+            <label for="add" class="add text-light">Create New Task:</label>
+            <input type="text" class="form-control m-auto" name="add" id="add">
+          </form>
+          
+        </div>
+
+
+
+
+
+    <script>
+
+        const addForm = document.querySelector("form.add");
+        const ul = document.querySelector("ul.todos");
+        const searchFormInput = document.querySelector("form.search input");
+
+        //ADD NEW TODO
+        const handleAddItem = (inputValue) => {
+        const html = `
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>${inputValue}</span>
+            <i class="far fa-trash-alt delete"></i>
+            </li>
+        `;
+        ul.innerHTML += html;
+        };
+
+        addForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const inputValue = addForm.add.value;
+        if (inputValue.length) handleAddItem(inputValue);
+        addForm.add.value = "";
+        });
+
+        //REMOVE TODO
+        ul.addEventListener("click", (e) => {
+        if (e.target.classList.contains("delete")) {
+            e.target.parentElement.remove();
+        }
+        });
+
+        //SEARCH INPUT: PREVENT DEFAULT ACTION - LITTLE BUG I FOUND IN THE COURSE PROJECT
+        searchFormInput.parentElement.addEventListener("submit", (e) =>
+        e.preventDefault()
+        );
+
+        //SEARCH AND FILTER TODOS
+        const filterItems = (value) => {
+        Array.from(ul.children).forEach((li) => {
+            if (!li.textContent.toLowerCase().includes(value)) li.classList.add("filtred");
+            else li.classList.remove("filtred");
+        });
+        };
+
+        searchFormInput.addEventListener("keyup", (e) => {
+        const value = searchFormInput.value.toLowerCase().trim();
+        filterItems(value);
+        });
+
+        
+    </script>
+
+
+
+</body>
+
+</html>
